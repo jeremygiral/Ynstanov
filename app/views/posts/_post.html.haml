@@ -1,0 +1,36 @@
+.col-xs-4
+  .posts-wrapper
+    .post
+      .post-head
+        .thumb-img
+        .pseudo
+          = link_to post.user.pseudo, profiles_path(post.user.id.to_s + "_" + post.user.first_name + "-" + post.user.last_name)
+        .time-ago
+          = time_ago_in_words post.created_at
+      .image.center-block
+        = link_to (image_tag post.image.url(:medium), class:'img-responsive'), post_path(post)
+      .post-bottom
+        = render 'posts/likes', post: post
+        .caption
+          .caption-content
+            .categorie
+              Catégorie :
+              %br
+              =link_to post.category.name,  post_cat_filter_path(post.category.id)
+              %br
+              - if post.tag_posts.length>=1
+                %br
+                Tags :
+                -post.tag_posts.each do |tag|
+                  .tag
+                  =link_to tag.tag.name,  post_tag_filter_path(tag.tag.id)
+        .comments{id: "comments_#{post.id}"}
+          - if post.comments
+            = render post.comments, post: post
+      .comment-like-form.row
+        .comment-like-form.row
+          .col-sm-1.like-button
+            =link_to '', "#{liked_post(post).first}",remote: true, id: "like_#{post.id}", class: "glyphicon #{liked_post(post).second}"
+        .comment-form.col-sm-11
+          = form_for([post, post.comments.build], remote: true) do |f|
+            = f.text_field :content, placeholder: 'Add a comment...', class: "comment_content", id: "comment_content_#{post.id}"

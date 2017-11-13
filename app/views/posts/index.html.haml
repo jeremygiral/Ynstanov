@@ -1,0 +1,7 @@
+-@posts.each do |post|
+  = render 'post', post: post
+
+.row
+#paginator.text-center
+  = link_to_next_page @posts, 'LOAD MORE', id: 'load_more'
+  -# = link_to_next_page @posts, 'LOAD MORE', remote: true, id: 'load_more'

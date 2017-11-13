@@ -1,0 +1,33 @@
+%nav.navbar.navbar-default
+  .container-fluid.navbar-container
+    .navbar-header
+      %button.navbar-toggle.collapsed{"data-target" => "#bs-navbar-collapse-1", "data-toggle" => "collapse", type: "button"}
+        %span.sr-only Toggle Navigation
+        %span.icon-bar
+        %span.icon-bar
+      .navbar-brand= link_to "Ynstanov", root_path
+    .collapse.navbar-collapse#bs-navbar-collapse-1
+      %ul.nav.navbar-nav.navbar-center
+        - Category.all.each do |category|
+          %li
+            = link_to category.name, post_cat_filter_path(category.id)
+      %ul.nav.navbar-nav.navbar-center
+        = form_tag posts_path, method: :get do
+          .form-group.text-center
+            .col-xs-8.text-center
+              = text_field_tag 'keywords', nil, class: 'form-control', placeholder: 'search'
+            .col-xs-2.text-center
+              = submit_tag 'search', class: 'btn btn-success'
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li
+            = link_to "My Profile", profiles_path(current_user.id.to_s + "_" + current_user.first_name + "-" + current_user.last_name)
+          %li
+            = link_to "New Post", new_post_path
+          %li
+            = link_to "Logout", destroy_user_session_path, method: :delete
+        - else
+          %li
+            = link_to "Login", new_user_session_path
+          %li
+            = link_to "Register", new_user_registration_path

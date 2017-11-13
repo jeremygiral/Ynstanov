@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Ynstanov
+    = csrf_meta_tags
+    %link{:href => "https://fonts.googleapis.com/css?family=Dosis", :rel => "stylesheet"}/
+    %link{:href => "app/assets/stylesheets/application.css.scss", :rel => "stylesheet"}/
+    %link{:href => "app/assets/stylesheets/application.scss", :rel => "stylesheet"}/
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    %link{:href => "//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css", :rel => "stylesheet"}/
+    %link{:href => "//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css", :rel => "stylesheet"}/
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+  %body{:class => "#{params[:controller]}"}
+    .header
+      = render 'layouts/navbar'
+    .container
+      -flash.each do |name, msg|
+        = content_tag :div, msg, class: [:alert, alert_for(name)]
+    .container.content
+      .row
+        = yield

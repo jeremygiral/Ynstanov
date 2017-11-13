@@ -1,0 +1,17 @@
+.form-wrapper
+  = simple_form_for @post, html: { class: 'form-horizontal', multipart: true } do |f|
+    .form-group
+      = f.input :image
+    .form-group.text-center
+      .h2 Category
+      %select{name: 'post[category_id]'}
+        - Category.all.each do |category|
+          %option{value: category.id}= category.name
+    .form-group.text-center
+      .h2 Tags
+      - Tag.all.each do |tag|
+        = tag.name
+        = check_box_tag "post[tag_ids][]", tag.id, false
+        %br
+    .form-group.text-center
+      = f.button :submit, class: 'btn-success'
